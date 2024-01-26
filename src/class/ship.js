@@ -13,3 +13,5 @@ class Ship {
     return this.hitCount === this.length;
   }
 }
+
+export { Ship };
