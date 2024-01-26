@@ -1,3 +1,5 @@
+import { Ship } from "./ship";
+
 class Gameboard {
   constructor(rows, columns) {
     this.rows = rows;
@@ -12,6 +14,7 @@ class Gameboard {
       for (let j = 0; j < columns; j++) {
         row.push({
           isShip: false,
+          ship: null,
           isHit: false,
         });
       }
