@@ -5,6 +5,7 @@ class Gameboard {
     this.rows = rows;
     this.columns = columns;
     this.board = this.#createBoard(rows, columns);
+    this.ships = [];
   }
 
   #createBoard(rows, columns) {
@@ -15,6 +16,7 @@ class Gameboard {
         row.push({
           isShip: false,
           ship: null,
+          shipHit: false,
           isHit: false,
         });
       }
@@ -37,11 +39,11 @@ class Gameboard {
 
       if (orientation === 0) {
         for (let i = cStart; i < cStart + length; i++) {
-          this.board[rStart][i] = { isShip: true, ship: ship, isHit: false };
+          this.board[rStart][i] = { isShip: true, ship: ship, shipHit: false, isHit: false };
         }
       } else {
         for (let i = rStart; i < rStart + length; i++) {
-          this.board[i][cStart] = { isShip: true, ship: ship, isHit: false };
+          this.board[i][cStart] = { isShip: true, ship: ship, shipHit: false, isHit: false };
         }
       }
 
@@ -68,7 +70,7 @@ class Gameboard {
 
         // Check if ship already occupying space
         if (this.board[xStart][i].isShip) {
-          return false
+          return false;
         }
       }
     }
@@ -105,6 +107,23 @@ class Gameboard {
       return false;
     } else if (y < 0) {
       return false;
+    }
+
+    return true;
+  }
+
+  receiveAttack([row, column]) {
+    const cell = this.board[row][column];
+
+    if (cell.isHit) {
+      // Cell is already hit. Do not change anything
+      return false;
+    }
+
+    cell.isHit = true;
+    if (cell.isShip) {
+      cell.ship.hit();
+      cell.shipHit = true;
     }
 
     return true;
