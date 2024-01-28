@@ -3,7 +3,7 @@ import { Ship } from "../class/ship";
 
 // Test for Gameboard.board validity
 describe("board (rows x columns)", () => {
-  const cell = { ship: null, isShip: false, isHit: false };
+  const cell = { ship: null, isShip: false, shipHit: false, isHit: false };
 
   test("0 x 0 board", () => {
     const gameboard = new Gameboard(0, 0);
@@ -46,7 +46,7 @@ describe("place ship at valid positions in 10 x 10 board. ", () => {
     gameboard.placeShip(4, 0, [0, 0]);
 
     for (let i = 0; i < 4; i++) {
-      testBoard[0][i] = { isShip: true, ship: ship, isHit: false };
+      testBoard[0][i] = { isShip: true, ship: ship, shipHit: false, isHit: false };
     }
 
     expect(gameboard.board).toEqual(testBoard);
@@ -57,7 +57,7 @@ describe("place ship at valid positions in 10 x 10 board. ", () => {
     gameboard.placeShip(4, 1, [0, 0]);
 
     for (let i = 0; i < 4; i++) {
-      testBoard[i][0] = { isShip: true, ship: ship, isHit: false };
+      testBoard[i][0] = { isShip: true, ship: ship, shipHit: false, isHit: false };
     }
 
     expect(gameboard.board).toEqual(testBoard);
@@ -68,7 +68,7 @@ describe("place ship at valid positions in 10 x 10 board. ", () => {
     gameboard.placeShip(4, 0, [3, 5]);
 
     for (let i = 5; i < 9; i++) {
-      testBoard[3][i] = { isShip: true, ship: ship, isHit: false };
+      testBoard[3][i] = { isShip: true, ship: ship, shipHit: false, isHit: false };
     }
     expect(gameboard.board).toEqual(testBoard);
   });
@@ -96,5 +96,36 @@ describe("place ships at an invalid positions in 10 x 10 board.", () => {
     gameboard.board[0][1] = cell;
 
     expect(gameboard.placeShip(2, 0, [0, 0])).toBeFalsy();
+  });
+});
+
+describe("receiveAttack()", () => {
+  let gameboard;
+
+  beforeEach(() => {
+    gameboard = new Gameboard(10, 10);
+  });
+
+  test("attack unoccupied cell. Expect cell's .isHit to be true, .shipHit to be false", () => {
+    gameboard.receiveAttack([0, 0]);
+    
+    expect(gameboard.board[0][0].isHit).toBeTruthy();
+    expect(gameboard.board[0][0].shipHit).toBeFalsy();
+  });
+
+  test("attack occupied cell. Expect cell's .shipHit and .isHit to be true. Expect ship's .hitCount to increment.", () => {
+    const ship1 = new Ship(1);
+    gameboard.board[0][0] = { isShip: true, ship: ship1, shipHit: false, isHit: false };
+    gameboard.receiveAttack([0, 0]);
+
+    expect(gameboard.board[0][0].isHit).toBeTruthy();
+    expect(gameboard.board[0][0].shipHit).toBeTruthy();
+    expect(ship1.hitCount).toBe(1);
+  });
+
+  test("attack already hit cell. Expect .receiveAttack() to reject attack (return false)", () => {
+    gameboard.board[0][0] = { isShip: true, ship: new Ship(1), shipHit: false, isHit: true };
+
+    expect(gameboard.receiveAttack([0, 0])).toBeFalsy();
   });
 });
