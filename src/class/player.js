@@ -26,3 +26,6 @@ class Computer extends Player {
     return [row, column];
   }
 }
+
+
+export {Player, Computer}
