@@ -1,31 +1,41 @@
 class Player {
-  constructor(name, board) {
+  constructor(name, gameBoard) {
     this.name = name;
-    this.board = board;
+    this.gameBoard = gameBoard;
   }
 
-  attack([row, column], board) {
-    return board.receiveAttack([row, column]);
+  attack([row, column], gameBoard) {
+    return gameBoard.receiveAttack([row, column]);
   }
 }
 
 class Computer extends Player {
-  constructor(name, board) {
-    super(name, board);
+  constructor(name, gameBoard) {
+    super(name, gameBoard);
   }
 
-  attackRandom() {}
+  attackRandom(gameBoard) {
+    const randCoordinates = this.#getRandomCoordinates(gameBoard);
 
-  #randomCoordinates() {
-    const nRows = this.board.length;
-    const row = Math.floor(Math.random() * nRows);
+    return this.attack(randCoordinates, gameBoard);
+  }
 
-    const nColumns = this.board[0].length;
-    const column = Math.floor(Math.random() * nColumns);
+  #getRandomCoordinates(gameBoard) {
+    // Makes an array of available coordinates and pick a random one.
+    const unhitCellsCoordinates = [];
+    const board = gameBoard.board;
 
-    return [row, column];
+    for (let i = 0; i < board.length; i++) {
+      for (let j = 0; j < board[0].length; j++) {
+        const c = board[i][j];
+        if (c.isHit === false) {
+          unhitCellsCoordinates.push([i, j]);
+        }
+      }
+    }
+    const n = Math.floor(Math.random() * unhitCellsCoordinates.length);
+    return unhitCellsCoordinates[n];
   }
 }
 
-
-export {Player, Computer}
+export { Player, Computer };

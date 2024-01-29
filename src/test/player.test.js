@@ -3,16 +3,18 @@ import { Computer } from "../class/player";
 
 describe("computer's .attackRandom()", () => {
   let computer;
+  let enemyGameBoard;
 
   beforeEach(() => {
-    const board = new Gameboard(10, 10);
+    const gameBoard = new Gameboard(10, 10);
+    enemyGameBoard = new Gameboard(10, 10);
 
-    computer = new Computer("computer", board);
+    computer = new Computer("computer", gameBoard);
   });
 
-  test("attack random cell 100 times (n of cells)", () => {
+  test("attack random cell 100 times (total number of cells)", () => {
     for (let i = 0; i < 100; i++) {
-      expect(computer.attackRandom()).toBeTruthy();
+      expect(computer.attackRandom(enemyGameBoard)).toBeTruthy();
     }
   });
 });
