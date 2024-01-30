@@ -26,24 +26,20 @@ class Gameboard {
     return board;
   }
 
-  placeShip(length, orientation, coordinates) {
+  placeShip(length, orientation, [row, column]) {
     // Orientation is horizontal or vertical
     // 0 = horizontal
     // 1 = vertical
-
-    if (this.#isValidPlacement(length, orientation, coordinates)) {
+    if (this.#isValidPlacement(length, orientation, [row, column])) {
       const ship = new Ship(length);
-      // Row and column start
-      const rStart = coordinates[0];
-      const cStart = coordinates[1];
 
       if (orientation === 0) {
-        for (let i = cStart; i < cStart + length; i++) {
-          this.board[rStart][i] = { isShip: true, ship: ship, shipHit: false, isHit: false };
+        for (let i = column; i < column + length; i++) {
+          this.board[row][i] = { isShip: true, ship: ship, shipHit: false, isHit: false };
         }
       } else {
-        for (let i = rStart; i < rStart + length; i++) {
-          this.board[i][cStart] = { isShip: true, ship: ship, shipHit: false, isHit: false };
+        for (let i = row; i < row + length; i++) {
+          this.board[i][column] = { isShip: true, ship: ship, shipHit: false, isHit: false };
         }
       }
 
@@ -55,11 +51,7 @@ class Gameboard {
     return false;
   }
 
-  #isValidPlacement(length, orientation, coordinates) {
-    // Row and column start
-    const xStart = coordinates[0];
-    const yStart = coordinates[1];
-
+  #isValidPlacement(length, orientation, [xStart, yStart]) {
     // Orientation = 0 (horizontal)
     if (orientation === 0) {
       for (let i = xStart; i < xStart + length; i++) {
