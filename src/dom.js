@@ -10,18 +10,28 @@ function createBoard(gameBoard, boardContainer) {
       cell.classList.add("cell");
 
       cell.addEventListener("click", () => {
-        if (gameBoard.receiveAttack([row, column])) {
-          cell.classList.add("hit");
-
-          if (gameBoard.board[row][column].isShip) {
-            cell.classList.add("ship-hit");
-          }
-        }
+        assignHitClass([row, column], cell, gameBoard);
       });
+
       rowCells.appendChild(cell);
     }
     boardContainer.appendChild(rowCells);
   }
+}
+
+function assignHitClass([row, column], cell, gameBoard) {
+  if (gameBoard.receiveAttack([row, column])) {
+    cell.classList.add("hit");
+
+    if (gameBoard.board[row][column].isShip) {
+      cell.classList.add("ship-hit");
+    }
+  }
+}
+
+function loadInfo(info, infoContainer) {
+  const name = infoContainer.querySelector(".name");
+  name.textContent = info.name;
 }
 
 export { createBoard };
