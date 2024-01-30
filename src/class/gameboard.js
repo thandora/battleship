@@ -44,6 +44,7 @@ class Gameboard {
       }
 
       // Successfully placed.
+      this.ships.push(ship);
       return true;
     }
 
@@ -119,6 +120,12 @@ class Gameboard {
     }
 
     return true;
+  }
+
+  allSunk() {
+    return this.ships.every((ship) => {
+      return ship.isSunk();
+    });
   }
 }
 
