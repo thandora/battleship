@@ -71,3 +71,11 @@ body {
   border: 1px solid black;
   cursor: pointer;
 }
+
+.cell.hit {
+  background-color: rgb(115, 115, 212);
+}
+
+.cell.ship-hit {
+  background-color: rgb(111, 167, 111);
+}
