@@ -1,37 +1,38 @@
-function createBoard(gameBoard, boardContainer) {
-  const nRows = gameBoard.board.length;
-  const nColumns = gameBoard.board[0].length;
+class Dom {
+  renderBoards(players) {
+    const boardNodes = document.querySelectorAll(".board");
 
-  for (let row = 0; row < nRows; row++) {
-    const rowCells = document.createElement("div");
-
-    for (let column = 0; column < nColumns; column++) {
-      const cell = document.createElement("div");
-      cell.classList.add("cell");
-
-      cell.addEventListener("click", () => {
-        assignHitClass([row, column], cell, gameBoard);
-      });
-
-      rowCells.appendChild(cell);
+    for (const i in players) {
+      const boardNode = boardNodes[i];
+      const nRows = players[i].gameBoard.board.length;
+      const nColumns = players[i].gameBoard.board[0].length;
+      this.createBoard([nRows, nColumns], boardNode);
     }
-    boardContainer.appendChild(rowCells);
+  }
+
+  createBoard([rows, columns], boardNode) {
+    for (let row = 0; row < rows; row++) {
+      const rowCells = document.createElement("div");
+
+      for (let column = 0; column < columns; column++) {
+        const cell = document.createElement("div");
+        cell.classList.add("cell");
+
+        rowCells.appendChild(cell);
+      }
+      boardNode.appendChild(rowCells);
+    }
+  }
+
+  assignHitClass([row, column], cell, gameBoard) {
+    if (gameBoard.receiveAttack([row, column])) {
+      cell.classList.add("hit");
+
+      if (gameBoard.board[row][column].isShip) {
+        cell.classList.add("ship-hit");
+      }
+    }
   }
 }
 
-function assignHitClass([row, column], cell, gameBoard) {
-  if (gameBoard.receiveAttack([row, column])) {
-    cell.classList.add("hit");
-
-    if (gameBoard.board[row][column].isShip) {
-      cell.classList.add("ship-hit");
-    }
-  }
-}
-
-function loadInfo(info, infoContainer) {
-  const name = infoContainer.querySelector(".name");
-  name.textContent = info.name;
-}
-
-export { createBoard };
+export { Dom };
