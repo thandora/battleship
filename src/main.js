@@ -73,6 +73,7 @@ function attachCellHandler(boardContainer) {
   }
 }
 
+// TODO debug tests
 document.querySelector(".test").addEventListener("click", () => {
   console.log(boardA.board);
   console.log(boardB.board);
