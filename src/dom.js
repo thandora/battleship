@@ -23,6 +23,9 @@ class Dom {
         const cell = board[row][column];
         cellNode.classList.add("cell");
 
+        cellNode.setAttribute("data-row", row);
+        cellNode.setAttribute("data-column", column);
+
         this.assignHitClass(cellNode, cell);
         rowCells.appendChild(cellNode);
       }
