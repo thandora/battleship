@@ -30,11 +30,9 @@ function attachCellHandler(boardContainer) {
         if (playerA.isTurn) {
           playerA.attack([row, column], computer.gameBoard);
 
-          if (!playerA.gameBoard.board[row][column].isShip) {
+          if (!computer.gameBoard.board[row][column].isShip) {
             playerA.isTurn = false;
-
             computer.isTurn = true;
-            computer.attack([0, 0], playerA.gameBoard);
           }
         }
 
@@ -59,7 +57,7 @@ function attachCellHandler(boardContainer) {
           }
         } while (computer.isTurn);
 
-        // dom.renderBoards();
+        dom.renderBoards();
       }
 
       dom.assignHitClass(cellNode, computer.gameBoard.board[row][column]);
@@ -77,7 +75,7 @@ function attachCellHandler(boardContainer) {
 
 document.querySelector(".test").addEventListener("click", () => {
   console.log(boardA.board);
+  console.log(boardB.board);
 });
-attachCellHandler(document.querySelector(".board-b"));
 
-// do {} while (!playerA.gameBoard.allSunk() || !computer.gameBoard.allSunk());
+attachCellHandler(document.querySelector(".board-b"));
