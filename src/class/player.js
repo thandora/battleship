@@ -1,7 +1,8 @@
 class Player {
-  constructor(name, gameBoard) {
+  constructor(name, gameBoard, isTurn) {
     this.name = name;
     this.gameBoard = gameBoard;
+    this.isTurn = isTurn;
   }
 
   attack([row, column], gameBoard) {
@@ -10,17 +11,17 @@ class Player {
 }
 
 class Computer extends Player {
-  constructor(name, gameBoard) {
-    super(name, gameBoard);
+  constructor(name, gameBoard, isTurn) {
+    super(name, gameBoard, isTurn);
   }
 
   attackRandom(gameBoard) {
-    const randCoordinates = this.#getRandomCoordinates(gameBoard);
+    const randCoordinates = this.getRandomCoordinates(gameBoard);
 
     return this.attack(randCoordinates, gameBoard);
   }
 
-  #getRandomCoordinates(gameBoard) {
+  getRandomCoordinates(gameBoard) {
     // Makes an array of available coordinates and pick a random one.
     const unhitCellsCoordinates = [];
     const board = gameBoard.board;
